@@ -1,0 +1,189 @@
+<!-- Hero Section -->
+<header class="relative pt-16 pb-32 flex content-center items-center justify-center min-h-[90vh]">
+  <div class="absolute top-0 w-full h-full bg-center bg-cover"
+    style="background-image: url('https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1600&q=80');">
+    <span id="blackOverlay" class="w-full h-full absolute opacity-60 bg-slate-900/90 mix-blend-multiply"></span>
+    <div class="absolute inset-0 bg-linear-to-b from-blue-900/40 to-slate-900/90"></div>
+  </div>
+  <div class="container relative mx-auto z-10">
+    <div class="items-center flex flex-wrap justify-center">
+      <div class="w-full lg:w-8/12 px-4 ml-auto mr-auto text-center">
+        <div>
+          <h1 class="text-white font-bold text-5xl md:text-7xl leading-tight mb-6 animate-fade-in">
+            La banque de demain, <br />
+            <span class="bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-cyan-300">aujourd'hui.</span>
+          </h1>
+          <p class="mt-4 text-xl text-slate-200 mb-8 max-w-2xl mx-auto font-light tracking-wide">
+            Une expérience bancaire réinventée pour votre succès.
+            Gérez votre argent avec simplicité, sécurité et élégance.
+          </p>
+          <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a routerLink="/login"
+              class="px-8 py-4 bg-blue-600 text-white font-bold rounded-full shadow-lg shadow-blue-600/40 hover:bg-blue-700 transition-all transform hover:-translate-y-1 cursor-pointer ring-offset-2 focus:ring-2 ring-blue-500">
+              Accéder à mes comptes
+            </a>
+            <a href="#how-it-works"
+              class="px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold rounded-full shadow-lg hover:bg-white/20 transition-all transform hover:-translate-y-1">
+              Découvrir nos offres
+            </a>
+          </div>
+
+          <!-- Stats in Hero -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 border-t border-white/10 pt-8">
+            <div *ngFor="let stat of stats">
+              <div class="text-3xl font-bold text-white">{{ stat.value }}</div>
+              <div class="text-sm text-blue-200 uppercase tracking-wider">{{ stat.label }}</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Decorative curve -->
+  <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-20"
+    style="transform: translateZ(0);">
+    <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
+      version="1.1" viewBox="0 0 2560 100" x="0" y="0">
+      <polygon class="text-neutral-50 fill-current" points="2560 0 2560 100 0 100"></polygon>
+    </svg>
+  </div>
+</header>
+
+<!-- Features Section -->
+<section id="features" class="pb-20 bg-neutral-50 -mt-24 relative z-20">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap justify-center">
+      <!-- Feature Cards -->
+      <div *ngFor="let feature of features" class="w-full md:w-4/12 px-4 text-center">
+        <div
+          class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-xl hover:shadow-2xl transition-shadow rounded-2xl py-10 px-8 border-b-4 border-transparent hover:border-blue-500">
+          <div
+            class="p-3 w-20 h-20 shadow-lg rounded-full bg-blue-50 text-blue-600 mx-auto mb-6 flex items-center justify-center transform transition-transform hover:scale-110 duration-300">
+            <div [innerHTML]="feature.icon"></div>
+          </div>
+          <h6 class="text-xl font-bold text-slate-800 mb-3">{{ feature.title }}</h6>
+          <p class="mt-2 text-slate-500 leading-relaxed">{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Info / Trust Section -->
+    <div class="flex flex-wrap items-center mt-32">
+      <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
+        <div
+          class="text-blue-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-blue-100">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-8 h-8">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+          </svg>
+        </div>
+        <h3 class="text-3xl mb-2 font-bold leading-normal text-slate-800">
+          Une technologie de pointe
+        </h3>
+        <p class="text-lg font-light leading-relaxed mt-4 mb-4 text-slate-600">
+          Notre plateforme E-Banking a été conçue pour vous offrir une rapidité et une fiabilité inégalées.
+          Consultez votre solde en temps réel, effectuez des virements instantanés et gérez votre épargne du bout des
+          doigts.
+        </p>
+        <a href="#" class="font-bold text-blue-600 hover:text-blue-700 mt-4 inline-flex items-center gap-1 group">
+          En savoir plus
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-4 h-4 transform group-hover:translate-x-1 transition-transform">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+          </svg>
+        </a>
+      </div>
+      <div class="w-full md:w-4/12 px-4 mr-auto ml-auto mt-12 md:mt-0">
+        <div
+          class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-2xl rounded-2xl overflow-hidden transform rotate-2 hover:rotate-0 transition-transform duration-500 ring-1 ring-slate-100">
+          <img alt="..."
+            src="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            class="w-full align-middle rounded-t-lg" />
+          <blockquote class="relative p-8 mb-4">
+            <h4 class="text-xl font-bold text-slate-800">
+              Service Premium
+            </h4>
+            <p class="text-md font-light mt-2 text-slate-600">
+              "Depuis que j'ai rejoint cette banque, la gestion de mes finances est devenue un plaisir. L'interface est
+              magnifique et le service client est top."
+            </p>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="relative py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-slate-800">Comment ça marche ?</h2>
+      <p class="text-lg text-slate-500 mt-4">Simple, rapide et sécurisé.</p>
+    </div>
+
+    <div class="flex flex-wrap items-center">
+      <div *ngFor="let step of steps; let i = index" class="w-full md:w-4/12 px-4 text-center relative mb-12 md:mb-0">
+        <!-- Connector Line -->
+        <div *ngIf="i !== steps.length - 1"
+          class="hidden md:block absolute top-1/2 -right-6 w-12 h-0.5 bg-slate-200 -z-10"></div>
+
+        <div
+          class="w-16 h-16 mx-auto bg-white border-2 border-blue-100 rounded-full flex items-center justify-center text-2xl font-bold text-blue-600 mb-6 shadow-sm">
+          {{ step.number }}
+        </div>
+        <h3 class="text-xl font-bold text-slate-800 mb-2">{{ step.title }}</h3>
+        <p class="text-slate-500">{{ step.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-20 bg-slate-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-slate-800">Ils nous font confiance</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div *ngFor="let testimonial of testimonials" class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
+        <div class="flex items-center gap-4 mb-6">
+          <img [src]="testimonial.image" class="w-12 h-12 rounded-full object-cover ring-2 ring-blue-50"
+            [alt]="testimonial.name">
+          <div>
+            <div class="font-bold text-slate-800">{{ testimonial.name }}</div>
+            <div class="text-sm text-blue-500">{{ testimonial.role }}</div>
+          </div>
+        </div>
+        <p class="text-slate-600 italic">"{{ testimonial.quote }}"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Blue Decorative Bottom -->
+<div class="w-full h-24 bg-slate-50 relative overflow-hidden">
+  <div class="absolute bottom-0 left-0 w-full">
+    <svg class="block w-full h-24 text-slate-900 fill-current" viewBox="0 0 1440 320">
+      <path fill-opacity="1"
+        d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
+      </path>
+    </svg>
+  </div>
+</div>
+
+<!-- CTA Section Footer -->
+<section class="relative py-20 bg-slate-900 text-white">
+  <div class="container mx-auto px-4 text-center">
+    <h2 class="text-3xl md:text-5xl font-bold mb-6">Déjà client ?</h2>
+    <p class="text-lg text-slate-400 mb-10 max-w-xl mx-auto">Connectez-vous dès maintenant pour gérer vos finances en
+      toute sécurité.</p>
+    <a routerLink="/login"
+      class="inline-block px-10 py-5 bg-blue-600 text-white font-bold text-lg rounded-full shadow-lg shadow-blue-900/40 hover:bg-blue-700 transition-all transform hover:-translate-y-1 cursor-pointer">
+      Se connecter
+    </a>
+    <p class="mt-8 text-sm text-slate-500">Aucun frais caché. Annulation à tout moment.</p>
+  </div>
+</section>
