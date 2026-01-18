@@ -170,9 +170,11 @@ export class TransactionsHistoryComponent implements OnInit {
         ).subscribe({
           next: (results) => {
             const allTx = results.flat();
-            this.transactions = allTx.sort((a, b) =>
-              new Date(b.transactionDate).getTime() - new Date(a.transactionDate).getTime()
-            );
+            this.transactions = allTx.sort((a, b) => {
+              const dateA = new Date(a.transactionDate || a.createdAt || '').getTime();
+              const dateB = new Date(b.transactionDate || b.createdAt || '').getTime();
+              return dateB - dateA;
+            });
           },
           error: (err: any) => console.error('Error fetching transactions', err)
         });

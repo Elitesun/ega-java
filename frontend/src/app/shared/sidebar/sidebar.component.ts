@@ -51,6 +51,12 @@ export class SidebarComponent {
       role: 'ADMIN'
     },
     {
+      label: 'Historique Transactions',
+      href: '/dashboard/admin/transactions',
+      icon: 'M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z',
+      role: 'ADMIN'
+    },
+    {
       label: 'Effectuer un Virement',
       href: '/dashboard/transactions/transfer',
       icon: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',

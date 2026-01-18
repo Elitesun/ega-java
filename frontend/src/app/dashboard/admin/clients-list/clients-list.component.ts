@@ -120,15 +120,6 @@ import { catchError } from 'rxjs/operators';
                       </svg>
                     </button>
                     <button
-                      (click)="openHistoryModal(client)"
-                      class="text-slate-400 hover:text-purple-600 transition-colors p-2 rounded-lg hover:bg-purple-50"
-                      title="Historique"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5-12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </button>
-                    <button
                       [routerLink]="['/dashboard/admin/edit-client', client.id]"
                       class="text-slate-400 hover:text-blue-600 transition-colors p-2 rounded-lg hover:bg-blue-50"
                       title="Modifier"
@@ -200,8 +191,8 @@ import { catchError } from 'rxjs/operators';
     </div>
 
     <!-- Deposit Modal -->
-    <div *ngIf="showDepositModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
+    <div *ngIf="showDepositModal" class="fixed inset-0 flex items-center justify-center z-50" (click)="closeModals()">
+      <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4" (click)="$event.stopPropagation()">
         <h3 class="text-xl font-bold text-slate-900 mb-6">Effectuer un Dépôt</h3>
         <div *ngIf="selectedClient" class="space-y-4">
           <p class="text-sm text-slate-600"><strong>Client:</strong> {{ selectedClient.firstName }} {{ selectedClient.lastName }}</p>
@@ -237,8 +228,8 @@ import { catchError } from 'rxjs/operators';
     </div>
 
     <!-- Withdrawal Modal -->
-    <div *ngIf="showWithdrawalModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
+    <div *ngIf="showWithdrawalModal" class="fixed inset-0 flex items-center justify-center z-50" (click)="closeModals()">
+      <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4" (click)="$event.stopPropagation()">
         <h3 class="text-xl font-bold text-slate-900 mb-6">Effectuer un Retrait</h3>
         <div *ngIf="selectedClient" class="space-y-4">
           <p class="text-sm text-slate-600"><strong>Client:</strong> {{ selectedClient.firstName }} {{ selectedClient.lastName }}</p>
@@ -272,45 +263,6 @@ import { catchError } from 'rxjs/operators';
         </div>
       </div>
     </div>
-
-    <!-- History Modal -->
-    <div *ngIf="showHistoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-y-auto">
-      <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-2xl w-full mx-4 my-8">
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-xl font-bold text-slate-900">Historique des Transactions</h3>
-          <button (click)="closeModals()" class="text-slate-400 hover:text-slate-600">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-
-        <div *ngIf="selectedClient" class="space-y-4">
-          <p class="text-sm text-slate-600 mb-4"><strong>Client:</strong> {{ selectedClient.firstName }} {{ selectedClient.lastName }}</p>
-
-          <div *ngIf="historyLoading" class="text-center py-8 text-slate-500">Chargement...</div>
-          
-          <div *ngIf="!historyLoading && clientTransactions.length > 0" class="space-y-3 max-h-96 overflow-y-auto">
-            <div *ngFor="let tx of clientTransactions" class="border border-slate-200 rounded-lg p-4">
-              <div class="flex justify-between items-start mb-2">
-                <div>
-                  <p class="font-semibold text-slate-800">{{ tx.description || (tx.transactionType === 'TRANSFER' ? 'Virement' : tx.transactionType) }}</p>
-                  <p class="text-xs text-slate-500">{{ tx.transactionDate | date:'dd/MM/yyyy HH:mm' }}</p>
-                </div>
-                <p [class]="tx.transactionType === 'WITHDRAWAL' ? 'text-red-600 font-bold' : 'text-green-600 font-bold'">
-                  {{ tx.transactionType === 'WITHDRAWAL' ? '-' : '+' }}{{ tx.amount | number:'1.2-2' }} FCFA
-                </p>
-              </div>
-              <p class="text-xs text-slate-600">Compte: {{ tx.sourceAccount.accountNumber }}</p>
-            </div>
-          </div>
-
-          <div *ngIf="!historyLoading && clientTransactions.length === 0" class="text-center py-8 text-slate-500">
-            Aucune transaction trouvée
-          </div>
-        </div>
-      </div>
-    </div>
   `,
   styles: [],
 })
@@ -323,15 +275,12 @@ export class AdminClientsListComponent implements OnInit {
   // Modal states
   showDepositModal = false;
   showWithdrawalModal = false;
-  showHistoryModal = false;
   selectedClient: Client | null = null;
   
   // Form data
   transactionForm = { accountId: '', amount: 0, description: '' };
   depositLoading = false;
   withdrawalLoading = false;
-  historyLoading = false;
-  clientTransactions: Transaction[] = [];
 
   ngOnInit(): void {
     this.fetchClients();
@@ -356,25 +305,6 @@ export class AdminClientsListComponent implements OnInit {
     this.selectedClient = client;
     this.transactionForm = { accountId: '', amount: 0, description: 'Retrait physique' };
     this.showWithdrawalModal = true;
-  }
-
-  openHistoryModal(client: Client): void {
-    this.selectedClient = client;
-    this.showHistoryModal = true;
-    this.historyLoading = true;
-    this.bankService.getClientTransactions(client.id).subscribe({
-      next: (txs) => {
-        this.clientTransactions = txs.sort((a, b) => 
-          new Date(b.transactionDate).getTime() - new Date(a.transactionDate).getTime()
-        );
-        this.historyLoading = false;
-      },
-      error: (err) => {
-        console.error('Error loading transactions', err);
-        this.notificationService.error('Erreur lors du chargement des transactions');
-        this.historyLoading = false;
-      }
-    });
   }
 
   submitDeposit(): void {
@@ -444,7 +374,6 @@ export class AdminClientsListComponent implements OnInit {
   closeModals(): void {
     this.showDepositModal = false;
     this.showWithdrawalModal = false;
-    this.showHistoryModal = false;
     this.selectedClient = null;
     this.transactionForm = { accountId: '', amount: 0, description: '' };
   }

@@ -32,7 +32,7 @@ export interface Account {
 export interface Transaction {
   id: number;
   amount: number;
-  transactionDate: string;
+  transactionDate?: string;
   transactionType: 'DEPOSIT' | 'WITHDRAWAL' | 'TRANSFER';
   description: string;
   sourceAccount: Account;
@@ -136,7 +136,9 @@ export class BankService {
   }
 
   getClientTransactions(clientId: number): Observable<Transaction[]> {
-    return this.http.get<Transaction[]>(`${this.API_BASE}/admin/clients/${clientId}/transactions`);
+    const url = `${this.API_BASE}/admin/clients/${clientId}/transactions`;
+    console.log('Fetching client transactions from:', url);
+    return this.http.get<Transaction[]>(url);
   }
 
   createAccount(accountData: any): Observable<Account> {

@@ -1,12 +1,14 @@
 package com.backend.ega.entities;
 
 import com.backend.ega.entities.enums.TransactionType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "transactions")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Transaction {
 
     @Id
@@ -23,10 +25,12 @@ public class Transaction {
     @Column(name = "transaction_type", nullable = false)
     private TransactionType transactionType;
 
+    @JsonIgnoreProperties({"owner", "accounts"})
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "source_account_id", nullable = false)
     private Account sourceAccount;
 
+    @JsonIgnoreProperties({"owner", "accounts"})
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "destination_account_id")
     private Account destinationAccount; // Used only for transfers

@@ -1,5 +1,6 @@
 package com.backend.ega.services;
 
+import com.backend.ega.dto.ErrorResponse;
 import com.backend.ega.entities.Account;
 import com.backend.ega.entities.Client;
 import com.backend.ega.entities.enums.AccountType;
@@ -79,12 +80,27 @@ public class AccountsService {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    public ResponseEntity<Void> deleteAccount(Long id) {
-        if (accountsRepository.existsById(id)) {
-            accountsRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<?> deleteAccount(Long id) {
+        Optional<Account> accountOpt = accountsRepository.findById(id);
+        
+        if (accountOpt.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        
+        Account account = accountOpt.get();
+        
+        // Check if account has remaining balance
+        if (account.getBalance() != null && account.getBalance() > 0) {
+            ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                "Impossible de supprimer le compte. Le solde doit être vidé avant la suppression.",
+                "ACCOUNT_NOT_EMPTY"
+            );
+            return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+        }
+        
+        accountsRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     public List<Account> getAccountsByClient(Long clientId) {

@@ -182,6 +182,11 @@ public class ClientsService {
     public ResponseEntity<Client> updateClient(Long id, Client clientDetails) {
         return clientsRepository.findById(id)
                 .map(client -> {
+                    // Clear accounts from incoming request to prevent deserialization issues
+                    if (clientDetails.getAccounts() != null) {
+                        clientDetails.getAccounts().clear();
+                    }
+                    
                     client.setLastName(clientDetails.getLastName());
                     client.setFirstName(clientDetails.getFirstName());
                     client.setEmail(clientDetails.getEmail());

@@ -47,7 +47,8 @@ public interface TransactionsRepository extends JpaRepository<Transaction, Long>
      * This includes transactions from all accounts belonging to the client
      */
     @Query("SELECT t FROM Transaction t " +
-           "WHERE t.sourceAccount.owner.id = :clientId OR t.destinationAccount.owner.id = :clientId " +
+           "LEFT JOIN t.destinationAccount da " +
+           "WHERE t.sourceAccount.owner.id = :clientId OR da.owner.id = :clientId " +
            "ORDER BY t.transactionDate DESC")
     List<Transaction> findTransactionsByClientId(@Param("clientId") Long clientId);
 }

@@ -111,6 +111,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'admin/transactions',
+        loadComponent: () =>
+          import('./dashboard/admin/transactions-history/transactions-history.component').then(
+            (m) => m.AdminTransactionsHistoryComponent
+          ),
+      },
+      {
         path: 'admin/deposit',
         redirectTo: 'transactions/deposit',
         pathMatch: 'full'

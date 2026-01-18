@@ -12,6 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "accounts")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Account {
 
     @Id
